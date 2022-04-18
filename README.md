@@ -4,10 +4,14 @@ This application is a REST API that allows to know if a word exists and its mean
 
 To make this application I have used Java Spring Boot.
 
-## What was my motivation?
+
+## What was my motivation and what did i learn?
 
 What motivated me to carry out this project was the desire to carry out a practical case by myself, from scratch and using my own resources and in this way put into practice the knowledge acquired in the course in a practical way in a real case. 
 
+In this project I have learned the concepts of a REST API and HTTP communications, using Spring Boot as a framework on top of Java. 
+
+It has also helped me to be very self-sufficient and to search for resources and find solutions autonomously in an unknown environment. 
 
 ## How to use the project
 
@@ -58,9 +62,3 @@ http://localhost:8016/deleteWord
 }
 ```
 It will delete the word, if exists, and definition in the custom dictionary. 
-
-## What did i learn?
-
-In this project I have learned the concepts of a REST API and HTTP communications, using Spring Boot as a framework on top of Java. 
-
-It has also helped me to be very self-sufficient and to search for resources and find solutions autonomously in an unknown environment. 
