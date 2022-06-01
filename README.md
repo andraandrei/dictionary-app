@@ -13,6 +13,10 @@ In this project I have learned the concepts of a REST API and HTTP communication
 
 It has also helped me to be very self-sufficient and to search for resources and find solutions autonomously in an unknown environment. 
 
+## How to install and run the project
+
+
+
 ## How to use the project
 
 Run the project and the REST API will bind to `http://localhost:8016`. The following endpoints have been defined:

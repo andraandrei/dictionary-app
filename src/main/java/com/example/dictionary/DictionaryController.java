@@ -25,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,7 +36,7 @@ public class DictionaryController {
 	
 	ArrayList<Dictionary> customDictionary = new ArrayList<Dictionary>();
 	
-	@GetMapping(value="/dictionary")
+	@GetMapping(value="/getWord")
 	public String getInfo(@RequestParam(value = "word") String word) throws IOException, JSONException
 	{
 		
@@ -155,7 +156,7 @@ public class DictionaryController {
 	}
 	
 	
-	@PostMapping(value = "/setWord")
+	@PostMapping(value = "/setWord") // adds word to custom dictionary
 	@ResponseBody
 	public String postInfor (@RequestBody String jsonBody) throws IOException, JSONException 
 	{
@@ -168,7 +169,7 @@ public class DictionaryController {
 			ArrayList<String> auxArrList = new ArrayList<String>();
 			obj.setWord(jword.getString("word"));
 			JSONArray arr = jword.getJSONArray("definitions");
-			
+	
 			for (int i = 0; i<arr.length();i++) 
 			{
 				auxArrList.add(arr.getString(i));
@@ -190,5 +191,57 @@ public class DictionaryController {
 	      
 	}
 	
+	@PutMapping(value = "/updateWord")
+	@ResponseBody()
+	public String updateInfor (@RequestBody String jsonBody) throws IOException, JSONException {
+		
+		//Dictionary object = new Dictionary();
+		Dictionary obj = new Dictionary();
+		JSONObject jword = new JSONObject(jsonBody);
+		
+		try {
+			
+			ArrayList<String> arrayDefinition = new ArrayList<String>();
+			obj.setWord(jword.getString("word"));
+			JSONArray jDefinition = jword.getJSONArray("definitions");
+			
+			if (customDictionary.isEmpty()) {
+
+				JSONObject errorMessage = new JSONObject();
+				errorMessage.append("Error", "Word "+obj.getWord()+" is not posted in the custom dictionary. ");
+				return errorMessage.toString();
+			} 
+			for (int i=0; i<customDictionary.size(); i++) 
+			{
+				if (customDictionary.get(i).getWord().equals(obj.getWord()))
+				{
+					for (int j = 0; j<jDefinition.length();j++) 
+					{
+						arrayDefinition.add(jDefinition.getString(j));
+						customDictionary.add(j, obj);
+					}
+					obj.setDefinition(arrayDefinition);
+					customDictionary.add(obj);	
+					JSONObject successMessage = new JSONObject();
+					successMessage.append("Success", "Word "+obj.getWord()+" updated successfully " +obj.getDefinition());
+					return successMessage.toString();
+				} 
+	
+			}			
+		
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.toString());
+			JSONObject errorMessage = new JSONObject();
+			errorMessage.append("Error", "Word not updated successfully");
+			return errorMessage.toString();
+		}
+		JSONObject j = new JSONObject(obj);
+		return j.toString();
+
+		
+	}
+
 }
 
